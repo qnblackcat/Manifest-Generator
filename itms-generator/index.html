@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ITMS Generator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            flex-direction: column;
+            font-size: 18px;
+        }
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 500px;
+            margin-bottom: 20px;
+        }
+        .button-container a {
+            text-decoration: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            color: white;
+            background-color: #007BFF;
+            font-size: 16px;
+            text-align: center;
+        }
+        .button-container a:hover {
+            background-color: #0056b3;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        input[type="text"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin: 15px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button, a {
+            display: inline-block;
+            text-decoration: none;
+            padding: 10px 20px;
+            margin-top: 10px;
+            border-radius: 5px;
+            font-size: 16px;
+            color: white;
+            background-color: #007BFF;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover, a:hover {
+            background-color: #0056b3;
+        }
+        #itmsLink, #copyButton {
+            display: none;
+        }
+        .note {
+            font-style: italic; 
+            margin-top: 10px;
+            font-size: 16px;
+            color: #666;
+            display: none;
+        }
+        .description {
+            font-style: italic; 
+            font-size: 14px;
+            color: #555;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Button container for navigation -->
+    <div class="button-container">
+        <a href="https://qnblackcat.github.io/Manifest-Generator/">Home Page</a>
+        <a href="https://qnblackcat.github.io/Manifest-Generator/manifest-generator/">Go to Manifest Generator</a>
+    </div>
+
+    <!-- Main content -->
+    <div class="container">
+        <h1>OTA Installer</h1>
+        <p class="description">(Install your signed iPA over-the-air, no computer is required)</p>
+        <p>Enter the direct link to your <code>manifest.plist</code> file:</p>
+        <input type="text" id="manifestUrl" placeholder="https://your-server.com/path/to/manifest.plist" required>
+        <button onclick="generateLink()">Generate Link</button>
+        <p>
+            <a id="itmsLink" href="#" target="_blank">Install iPA</a>
+            <button id="copyButton" onclick="copyLink()">Copy Link</button>
+        </p>
+        <p class="note" id="note">*Install iPA only works in Safari on iPhone/iPad.</p>
+    </div>
+
+    <script>
+        function generateLink() {
+            const manifestUrl = document.getElementById('manifestUrl').value.trim();
+            const itmsLink = document.getElementById('itmsLink');
+            const copyButton = document.getElementById('copyButton');
+            const note = document.getElementById('note');
+
+            if (manifestUrl) {
+                const generatedUrl = `itms-services://?action=download-manifest&url=${encodeURIComponent(manifestUrl)}`;
+                itmsLink.href = generatedUrl;
+                itmsLink.style.display = 'inline-block'; // Show install button
+                itmsLink.textContent = "Install Application";
+                copyButton.style.display = 'inline-block'; // Show copy button
+                copyButton.setAttribute('data-url', generatedUrl); // Attach the generated URL to the copy button
+                note.style.display = 'block'; // Show note
+            } else {
+                itmsLink.style.display = 'none'; // Hide install button if no valid URL
+                copyButton.style.display = 'none'; // Hide copy button
+                note.style.display = 'none'; // Hide note
+                alert("Please enter a valid URL!");
+            }
+        }
+
+        function copyLink() {
+            const copyButton = document.getElementById('copyButton');
+            const linkToCopy = copyButton.getAttribute('data-url');
+
+            if (linkToCopy) {
+                navigator.clipboard.writeText(linkToCopy).then(() => {
+                    alert("The link has been copied to the clipboard! Please open the link in Safari on your iOS/iPadOS device to install the iPA.");
+                }).catch(err => {
+                    alert("Unable to copy the link. Please try again.");
+                    console.error("Error copying text: ", err);
+                });
+            }
+        }
+    </script>
+</body>
+</html>
