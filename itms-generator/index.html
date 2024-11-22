@@ -69,6 +69,13 @@
         button:hover, a:hover {
             background-color: #0056b3;
         }
+        #itmsLink {
+            background-color: #28a745;
+            color: white;
+        }
+        #itmsLink:hover {
+            background-color: #218838;
+        }
         #itmsLink, #copyButton {
             display: none;
         }
@@ -119,7 +126,7 @@
                 const generatedUrl = `itms-services://?action=download-manifest&url=${encodeURIComponent(manifestUrl)}`;
                 itmsLink.href = generatedUrl;
                 itmsLink.style.display = 'inline-block'; // Show install button
-                itmsLink.textContent = "Install Application";
+                itmsLink.textContent = "Install iPA";
                 copyButton.style.display = 'inline-block'; // Show copy button
                 copyButton.setAttribute('data-url', generatedUrl); // Attach the generated URL to the copy button
                 note.style.display = 'block'; // Show note
