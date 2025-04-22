@@ -1,215 +1,358 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manifest.plist Generator</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f2f5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            position: relative;
-            flex-direction: column;
-            font-size: 18px;
-        }
-        .header-buttons {
-            width: 31%;
-            display: flex;
-            justify-content: space-between;
-            padding: 10px;
-            position: absolute;
-            top: 10px;
-        }
-        .header-buttons a {
-            background-color: #007BFF;
-            color: white;
-            padding: 10px 15px;
-            border-radius: 5px;
-            text-decoration: none;
-            font-size: 16px;
-        }
-        .header-buttons a:hover {
-            background-color: #0056b3;
-        }
-        .container {
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            max-width: 500px;
-            width: 100%;
-            margin-top: 80px;
-        }
-        h1 {
-            text-align: center;
-            color: #333;
-        }
-        label {
-            display: block;
-            margin: 15px 0 5px;
-            color: #555;
-        }
-        input[type="text"] {
-            width: calc(100% - 22px);
-            padding: 10px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .info-button {
-            display: block;
-            text-align: center;
-            margin-top: 10px;
-            padding: 10px 15px;
-            background-color: #28a745;
-            color: white;
-            text-decoration: none;
-            font-size: 16px;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
-        }
-        .info-button:hover {
-            background-color: #218838;
-        }
-        .message {
-            text-align: center;
-            color: green;
-            margin-top: 10px;
-            font-size: 16px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>OTA Install Link Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f0f2f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      position: relative;
+      flex-direction: column;
+      font-size: 18px;
+    }
+    .container container {
+      background-color: #fff;
+      padding: 20px 24px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
+      width: calc(100% - 32px);
+      margin: 40px auto 0 auto;
+      box-sizing: border-box;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    label {
+      display: block;
+      margin: 15px 0 5px;
+      color: #555;
+    }
+    input[type="text"] {
+      width: calc(100% - 22px);
+      padding: 10px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .info-button {
+      display: block;
+      text-align: center;
+      margin-top: 10px;
+      padding: 10px 15px;
+      background-color: #28a745;
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+    .info-button:hover {
+      background-color: #218838;
+    }
+    .message {
+      text-align: center;
+      color: green;
+      margin-top: 10px;
+      font-size: 16px;
+    }
+    #itmsLink {
+      display: none;
+      text-align: center;
+      margin-top: 10px;
+    }
+    .button-group {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+    }
+    .install-button,
+    .copy-button {
+      flex: 1;
+      padding: 10px 20px;
+      border-radius: 5px;
+      color: white;
+      text-decoration: none;
+      font-size: 16px;
+      cursor: pointer;
+      text-align: center;
+    }
+    .install-button {
+      background-color: #007bff;
+    }
+    .install-button:hover {
+      background-color: #0056b3;
+    }
+    .copy-button {
+      background-color: #28a745;
+    }
+    .copy-button:hover {
+      background-color: #218838;
+    }
+    .spinner {
+      display: none;
+      width: 16px;
+      height: 16px;
+      border: 2px solid #fff;
+      border-top: 2px solid transparent;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+  </style>
 </head>
 <body>
 
-    <div class="header-buttons">
-        <a href="https://qnblackcat.github.io/Manifest-Generator/" class="home-button">Home page</a>
-        <a href="https://qnblackcat.github.io/Manifest-Generator/itms-generator/" class="go-itms-button">Go to itms Generator</a>
+  <div class="container">
+    <h1>IPA OTA Install Link Generator</h1>
+    <form id="manifestForm">
+      <label for="ipaUrl"><strong>Direct iPA URL:</strong> The direct URL to your iPA file (required). It's quite straightforward to obtain if you upload the file to a hosting service like Dropbox, archive.org, MySharePoint, Github, etc</label>
+      <input type="text" id="ipaUrl" name="ipaUrl" required>
+
+      <label for="bundleIdentifier"><strong>App Bundle Identifier:</strong> It should be in the format "com.abc.xyz" (required)</label>
+      <input type="text" id="bundleIdentifier" name="bundleIdentifier" required>
+
+      <label for="appVersion"><strong>App Version</strong> (required)</label>
+      <input type="text" id="appVersion" name="appVersion" required>
+
+      <label for="appName"><strong>App Name</strong> (required)</label>
+      <input type="text" id="appName" name="appName" required>
+
+      <label for="displayImageUrl"><strong>Display Image URL</strong> (optional)</label>
+      <input type="text" id="displayImageUrl" name="displayImageUrl">
+
+      <label for="fullSizeImageUrl"><strong>Full-size Image URL</strong> (optional)</label>
+      <input type="text" id="fullSizeImageUrl" name="fullSizeImageUrl">
+
+      <button type="button" onclick="generatePlist()" id="generateButton">
+        <span id="buttonText">Generate OTA Install Link</span>
+        <span class="spinner" id="spinner"></span>
+      </button>
+    </form>
+
+    <div id="successMessage" class="message" style="display: none;">
+      🎉 OTA Install Link generated successfully 🎉
+    </div>
+    <div id="itmsLink">
+      <div class="button-group">
+        <a id="installButton" href="" class="install-button">Install IPA</a>
+        <button id="copyButton" class="copy-button">Copy Link</button>
+      </div>
     </div>
 
-    <div class="container">
-        <h1>Manifest.plist Generator</h1>
-        <form id="manifestForm">
-            <label for="ipaUrl"><strong>Direct iPA URL:</strong> Direct URL to your iPA (required). It’s quite simple to obtain the direct URL if you upload a file to a host like Dropbox, archive.org, MySharePoint...</label>
-            <input type="text" id="ipaUrl" name="ipaUrl" required>
+    <hr style="margin-top: 20px; margin-bottom: 10px;">
+    <a href="https://github.com/qnblackcat/How-to-Downgrade-apps-on-AppStore-with-iTunes-and-Charles-Proxy#12-is-it-possible-to-install-the-ipa-without-a-computer"
+       target="_blank" class="info-button">
+      My downgrade app guide!
+    </a>
+  </div>
 
-            <label for="bundleIdentifier"><strong>App Bundle Identifier:</strong> It will be in the form like "com.abc.xyz" (required)</label>
-            <input type="text" id="bundleIdentifier" name="bundleIdentifier" required>
-
-            <label for="appVersion"><strong>App Version</strong> (required)</label>
-            <input type="text" id="appVersion" name="appVersion" required>
-
-            <label for="appName"><strong>App Name</strong> (required)</label>
-            <input type="text" id="appName" name="appName" required>
-
-            <label for="displayImageUrl"><strong>Display Image URL</strong> (Optional)</label>
-            <input type="text" id="displayImageUrl" name="displayImageUrl">
-
-            <label for="fullSizeImageUrl"><strong>Full Size Image URL</strong> (Optional)</label>
-            <input type="text" id="fullSizeImageUrl" name="fullSizeImageUrl">
-
-            <button type="button" onclick="generatePlist()">Generate Manifest.plist</button>
-            <a href="https://github.com/qnblackcat/How-to-Downgrade-apps-on-AppStore-with-iTunes-and-Charles-Proxy#12-is-it-possible-to-install-the-ipa-without-a-computer" 
-               target="_blank" class="info-button">
-                My downgrade app guide!
-            </a>
-        </form>
-
-        <div id="successMessage" class="message" style="display: none;">
-            A Manifest.plist is generated successfully.
-        </div>
-    </div>
-
-    <script>
-        function generatePlist() {
-            const ipaUrl = document.getElementById('ipaUrl').value;
-            const displayImageUrl = document.getElementById('displayImageUrl').value;
-            const fullSizeImageUrl = document.getElementById('fullSizeImageUrl').value;
-            const bundleIdentifier = document.getElementById('bundleIdentifier').value;
-            const appVersion = document.getElementById('appVersion').value;
-            const appName = document.getElementById('appName').value;
-
-            // Check if the required fields are filled
-            if (!ipaUrl || !bundleIdentifier || !appVersion || !appName) {
-                alert("Please fill in all required fields.");
-                return;
-            }
-
-            const plistContent = 
-                `<?xml version="1.0" encoding="UTF-8"?>
-                <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-                <plist version="1.0">
-                <dict>
-                    <key>items</key>
-                    <array>
-                        <dict>
-                            <key>assets</key>
-                            <array>
-                                <dict>
-                                    <key>kind</key>
-                                    <string>software-package</string>
-                                    <key>url</key>
-                                    <string>${ipaUrl}</string>
-                                </dict>
-                                <dict>
-                                    <key>kind</key>
-                                    <string>display-image</string>
-                                    <key>url</key>
-                                    <string>${displayImageUrl}</string>
-                                </dict>
-                                <dict>
-                                    <key>kind</key>
-                                    <string>full-size-image</string>
-                                    <key>url</key>
-                                    <string>${fullSizeImageUrl}</string>
-                                </dict>
-                            </array>
-                            <key>metadata</key>
-                            <dict>
-                                <key>bundle-identifier</key>
-                                <string>${bundleIdentifier}</string>
-                                <key>bundle-version</key>
-                                <string>${appVersion}</string>
-                                <key>kind</key>
-                                <string>software</string>
-                                <key>platform-identifier</key>
-                                <string>com.apple.platform.iphoneos</string>
-                                <key>title</key>
-                                <string>${appName}</string>
-                            </dict>
-                        </dict>
-                    </array>
-                </dict>
-                </plist>`;
-
-            const blob = new Blob([plistContent], { type: 'text/xml' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'manifest.plist';
-            a.click();
-            URL.revokeObjectURL(url);
-
-            // Display success message
-            document.getElementById('successMessage').style.display = 'block';
+  <script>
+    function fixDropboxUrl(url) {
+      try {
+        const urlObj = new URL(url);
+        if (urlObj.hostname.includes('dropbox.com')) {
+          urlObj.searchParams.set('dl', '1');
+          return urlObj.toString();
         }
-    </script>
+        return url;
+      } catch (error) {
+        console.error('Error fixing Dropbox URL:', error);
+        return url;
+      }
+    }
+
+    async function checkDirectUrl(url) {
+      const urlObj = new URL(url);
+      if (urlObj.hostname.includes('dropbox.com') && urlObj.searchParams.get('dl') === '1') {
+        return true;
+      }
+
+      const isGithubRelease = urlObj.hostname === 'github.com' && urlObj.pathname.includes('/releases/download/');
+      if (isGithubRelease) {
+        return true;
+      }
+
+      try {
+        const response = await fetch(url, {
+          method: 'GET',
+          headers: { 'Range': 'bytes=0-511' }
+        });
+
+        if (!response.ok) return false;
+
+        const contentType = response.headers.get('Content-Type') || '';
+        if (contentType.includes('text/html')) return false;
+
+        const contentDisposition = response.headers.get('Content-Disposition') || '';
+        if (contentDisposition.toLowerCase().includes('.ipa') || contentDisposition.toLowerCase().includes('.plist')) return true;
+
+        const blob = await response.blob();
+        const text = await blob.slice(0, 512).text();
+        const isBinary = [...text].some(char => char.charCodeAt(0) < 9 || (char.charCodeAt(0) > 13 && char.charCodeAt(0) < 32));
+        if (!isBinary && text.includes('<html')) return false;
+
+        return true;
+      } catch {
+        return false;
+      }
+    }
+
+    async function generatePlistWithConfirmation() {
+      const ipaUrlInput = document.getElementById('ipaUrl').value;
+      const fixedIpaUrl = fixDropboxUrl(ipaUrlInput);
+      const displayImageUrl = document.getElementById('displayImageUrl').value;
+      const fullSizeImageUrl = document.getElementById('fullSizeImageUrl').value;
+      const bundleIdentifier = document.getElementById('bundleIdentifier').value;
+      const appVersion = document.getElementById('appVersion').value;
+      const appName = document.getElementById('appName').value;
+
+      if (!ipaUrlInput || !bundleIdentifier || !appVersion || !appName) {
+        alert("Please fill in all required fields.");
+        return;
+      }
+
+      const proceed = confirm(`👉 Please ensure that the IPA URL is a direct URL that directly downloads the .ipa file. If not, the generated link will not work.\n👉 If you are certain, simply click OK to proceed`);
+      if (!proceed) return;
+
+      const plistContent = `<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>items</key>
+  <array>
+    <dict>
+      <key>assets</key>
+      <array>
+        <dict>
+          <key>kind</key>
+          <string>software-package</string>
+          <key>url</key>
+          <string>${fixedIpaUrl}</string>
+        </dict>
+        <dict>
+          <key>kind</key>
+          <string>display-image</string>
+          <key>url</key>
+          <string>${displayImageUrl}</string>
+        </dict>
+        <dict>
+          <key>kind</key>
+          <string>full-size-image</string>
+          <key>url</key>
+          <string>${fullSizeImageUrl}</string>
+        </dict>
+      </array>
+      <key>metadata</key>
+      <dict>
+        <key>bundle-identifier</key>
+        <string>${bundleIdentifier}</string>
+        <key>bundle-version</key>
+        <string>${appVersion}</string>
+        <key>kind</key>
+        <string>software</string>
+        <key>platform-identifier</key>
+        <string>com.apple.platform.iphoneos</string>
+        <key>title</key>
+        <string>${appName}</string>
+      </dict>
+    </dict>
+  </array>
+</dict>
+</plist>`;
+
+      const generateButton = document.getElementById('generateButton');
+      const buttonText = document.getElementById('buttonText');
+      const spinner = document.getElementById('spinner');
+      buttonText.textContent = "Generating...";
+      spinner.style.display = "inline-block";
+      generateButton.disabled = true;
+
+      try {
+        const response = await fetch('https://manifest-plist-uploader.vercel.app/api/upload-manifest', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ content: plistContent })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.error || 'Failed to generate ITMS link');
+        }
+
+        let manifestUrl;
+        if (data.manifestUrl) {
+          manifestUrl = data.manifestUrl;
+        } else if (data.itmsLink) {
+          const urlMatch = data.itmsLink.match(/url=([^&]+)/);
+          if (!urlMatch || !urlMatch[1]) {
+            throw new Error('Could not extract manifest URL from ITMS link');
+          }
+          manifestUrl = decodeURIComponent(urlMatch[1]);
+        } else {
+          throw new Error('API response does not contain manifestUrl or itmsLink');
+        }
+
+        const fixedManifestUrl = fixDropboxUrl(manifestUrl);
+
+        const isManifestDirectUrl = await checkDirectUrl(fixedManifestUrl);
+        if (!isManifestDirectUrl) {
+          throw new Error(`The manifest.plist URL is not a direct URL: ${fixedManifestUrl}. Please ensure the manifest URL is accessible as a direct link (e.g., with dl=1 for Dropbox).`);
+        }
+
+        const finalItmsLink = `itms-services://?action=download-manifest&url=${encodeURIComponent(fixedManifestUrl)}`;
+        document.getElementById('installButton').href = finalItmsLink;
+        document.getElementById('copyButton').onclick = () => {
+          navigator.clipboard.writeText(finalItmsLink)
+            .then(() => alert('The link has been copied to your clipboard ✅\nTo install the IPA, please open it in Safari on your iOS or iPadOS device 📱'))
+            .catch(err => alert('Failed to copy the link: ' + err));
+        };
+        document.getElementById('itmsLink').style.display = 'block';
+        document.getElementById('successMessage').style.display = 'block';
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Failed to upload or generate the ITMS link. Please try again. Error: ' + error.message);
+      } finally {
+        buttonText.textContent = "Generate OTA Install Link";
+        spinner.style.display = "none";
+        generateButton.disabled = false;
+      }
+    }
+
+    async function generatePlist() {
+      await generatePlistWithConfirmation();
+    }
+  </script>
+
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'934613720e49bd37',t:'MTc0NTMzNDkyMC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
 </body>
 </html>
