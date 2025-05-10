@@ -137,7 +137,7 @@
   <div class="container">
     <h1>IPA OTA Install Link Generator</h1>
     <form id="manifestForm">
-      <label for="ipaUrl"><strong>Direct iPA URL:</strong> The direct URL to your iPA file (required). It's quite straightforward to obtain if you upload the file to a hosting service like Dropbox, archive.org, MySharePoint, Github, etc</label>
+      <label for="ipaUrl"><strong>Direct iPA URL:</strong> The direct URL to your iPA file (required). It's quite straightforward to obtain if you upload the file to a hosting service like archive.org, MySharePoint, Github... etc. Dropbox is weird so avoid it 🚫</label>
       <input type="text" id="ipaUrl" name="ipaUrl" required>
 
       <label for="bundleIdentifier"><strong>App Bundle Identifier:</strong> It should be in the format "com.abc.xyz" (required)</label>
@@ -336,7 +336,7 @@
         document.getElementById('installButton').href = finalItmsLink;
         document.getElementById('copyButton').onclick = () => {
           navigator.clipboard.writeText(finalItmsLink)
-            .then(() => alert('The link has been copied to your clipboard ✅\nTo install the IPA, please open it in Safari on your iOS or iPadOS device 📱'))
+            .then(() => alert('👉 The link has been copied to your clipboard ✅\n👉 To install the IPA, please open it in Safari on your iOS or iPadOS device 📱'))
             .catch(err => alert('Failed to copy the link: ' + err));
         };
         document.getElementById('itmsLink').style.display = 'block';
