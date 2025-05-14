@@ -87,13 +87,13 @@
     #itmsLinkBox {
       display: none;
       margin-top: 10px;
-      text-align: center;
+      text-align: justify;
       background-color: #fff;
       border: 1px solid #ccc;
       border-radius: 5px;
       padding: 10px;
-      min-height: 60px; /* Mở rộng độ cao */
-      word-wrap: break-word; /* Đảm bảo text xuống dòng */
+      min-height: 60px;
+      word-wrap: break-word;
       cursor: pointer;
     }
     #itmsLink {
@@ -106,8 +106,7 @@
       justify-content: center;
       gap: 10px;
     }
-    .install-button,
-    .copy-button {
+    .install-button {
       flex: 1;
       padding: 10px 20px;
       border-radius: 5px;
@@ -116,18 +115,10 @@
       font-size: 16px;
       cursor: pointer;
       text-align: center;
-    }
-    .install-button {
       background-color: #007bff;
     }
     .install-button:hover {
       background-color: #0056b3;
-    }
-    .copy-button {
-      background-color: #28a745;
-    }
-    .copy-button:hover {
-      background-color: #218838;
     }
     .spinner {
       display: none;
@@ -180,7 +171,6 @@
     <div id="itmsLink">
       <div class="button-group">
         <a id="installButton" href="" class="install-button">Install IPA</a>
-        <button id="copyButton" class="copy-button">Copy Link</button>
       </div>
     </div>
 
@@ -355,11 +345,6 @@
         const finalItmsLink = `itms-services://?action=download-manifest&url=${encodeURIComponent(fixedManifestUrl)}`;
         document.getElementById('installButton').href = finalItmsLink;
         document.getElementById('itmsLinkBox').textContent = finalItmsLink;
-        document.getElementById('copyButton').onclick = () => {
-          navigator.clipboard.writeText(finalItmsLink)
-            .then(() => alert('👉 The link has been copied to your clipboard ✅\n👉 To install the IPA, please open it in Safari on your iOS or iPadOS device 📱'))
-            .catch(err => alert('Failed to copy the link: ' + err));
-        };
         document.getElementById('itmsLinkBox').style.display = 'block';
         document.getElementById('itmsLink').style.display = 'block';
         document.getElementById('successMessage').style.display = 'block';
