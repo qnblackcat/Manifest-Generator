@@ -94,6 +94,8 @@
       padding: 10px;
       min-height: 60px;
       word-wrap: break-word;
+      overflow-wrap: break-word;
+      hyphens: auto;
       cursor: pointer;
     }
     #itmsLink {
@@ -166,6 +168,9 @@
 
     <div id="successMessage" class="message" style="display: none;">
       🎉 OTA Install Link generated successfully 🎉
+    </div>
+    <div class="message" style="text-align: center; color: #555; margin-top: 5px; font-size: 14px;">
+      To Copy the Link, press on the link box
     </div>
     <div id="itmsLinkBox" onclick="copyItmsLink()"></div>
     <div id="itmsLink">
