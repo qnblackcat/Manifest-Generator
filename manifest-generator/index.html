@@ -141,7 +141,7 @@
   <div class="container">
     <h1>IPA OTA Install Link Generator</h1>
     <form id="manifestForm">
-      <label for="ipaUrl"><strong>Direct iPA URL:</strong> The direct URL to your iPA file (required). It's quite straightforward to obtain if you upload the file to a hosting service like archive.org, MySharePoint, Github... etc. Dropbox is weird so avoid it 🚫</label>
+      <label for="ipaUrl" style="text-align: justify;"><strong>Direct iPA URL:</strong> The direct URL to your iPA (required). It's quite straightforward to obtain if you upload the file to a hosting service like archive.org, MySharePoint, Github... etc. Dropbox is weird so avoid it 🚫</label>
       <input type="text" id="ipaUrl" name="ipaUrl" required>
 
       <label for="bundleIdentifier"><strong>App Bundle Identifier:</strong> It should be in the format "com.abc.xyz" (required)</label>
@@ -152,12 +152,6 @@
 
       <label for="appName"><strong>App Name</strong> (required)</label>
       <input type="text" id="appName" name="appName" required>
-
-      <label for="displayImageUrl"><strong>Display Image URL</strong> (optional)</label>
-      <input type="text" id="displayImageUrl" name="displayImageUrl">
-
-      <label for="fullSizeImageUrl"><strong>Full-size Image URL</strong> (optional)</label>
-      <input type="text" id="fullSizeImageUrl" name="fullSizeImageUrl">
 
       <button type="button" onclick="generatePlist()" id="generateButton">
         <span id="buttonText">Generate OTA Install Link</span>
